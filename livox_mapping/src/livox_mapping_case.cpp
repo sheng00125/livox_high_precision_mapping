@@ -102,18 +102,20 @@ void imuCbk(const nav_msgs::Odometry::ConstPtr &msg)
 {
     imu_datas.push_back(*msg);
 }
-void apximuCbk(const sensor_msgs::Imu::ConstPtr &msg) // transform sensor_msgs::Imu to nav_msgs::Odometry
-{
-    nav_msgs::Odometry tempOdo;
-    tempOdo.header.stamp = msg->header.stamp;
-    tempOdo.pose.pose.orientation.x = msg->orientation.x;
-    tempOdo.pose.pose.orientation.y = msg->orientation.y;
-    tempOdo.pose.pose.orientation.z = msg->orientation.z;
-    tempOdo.pose.pose.orientation.w = msg->orientation.w;
-    tempOdo.header.frame_id = "/camera_init";
+    // init
+    void apximuCbk(const sensor_msgs::Imu::ConstPtr
+                       &msg) // transform sensor_msgs::Imu to nav_msgs::Odometry
+    {
+      nav_msgs::Odometry tempOdo;
+      tempOdo.header.stamp = msg->header.stamp;
+      tempOdo.pose.pose.orientation.x = msg->orientation.x;
+      tempOdo.pose.pose.orientation.y = msg->orientation.y;
+      tempOdo.pose.pose.orientation.z = msg->orientation.z;
+      tempOdo.pose.pose.orientation.w = msg->orientation.w;
+      tempOdo.header.frame_id = "/camera_init";
 
-    pub_apx_rpy.publish(tempOdo);
-}
+      pub_apx_rpy.publish(tempOdo);
+    }
 void rtkCbk(const sensor_msgs::NavSatFix::ConstPtr &msg)
 {
     rtk_datas.push_back(*msg);
